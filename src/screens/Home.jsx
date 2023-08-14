@@ -5,8 +5,12 @@ function HomeScreen({ navigation }) {
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Home screen</Text>
       <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Details")}
+        title="Take a Photo"
+        onPress={() => navigation.navigate("Take a Photo")}
+      />
+      <Button
+        title="Upload Image"
+        onPress={() => navigation.navigate("Upload Image")}
       />
     </View>
   );

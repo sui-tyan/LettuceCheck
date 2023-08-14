@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import { Text, TouchableOpacity, View } from "react-native";
 
-export default function DetailsScreen() {
+export default function TakeAPhoto() {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const ref = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -19,9 +20,15 @@ export default function DetailsScreen() {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
+  _takePhoto = async () => {
+    const photo = await ref.current.takePictureAsync();
+    console.debug(photo);
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={type}>
+      <Camera style={{ flex: 1 }} type={type} ref={ref}>
         <View
           style={{
             flex: 1,
@@ -29,11 +36,31 @@ export default function DetailsScreen() {
             flexDirection: "row",
           }}
         >
+          {/* take */}
           <TouchableOpacity
             style={{
-              flex: 0.1,
+              alignItems: "center",
+              position: "absolute",
+              bottom: "10%",
+              left: "40.5%",
+              borderRadius: 50,
+              width: 80,
+              height: 80,
+              backgroundColor: "red",
+            }}
+            onPress={_takePhoto}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: "black" }}>
+              {" "}
+            </Text>
+          </TouchableOpacity>
+
+          {/* flip */}
+          <TouchableOpacity
+            style={{
               alignSelf: "flex-end",
               alignItems: "center",
+              backgroundColor: "red",
             }}
             onPress={() => {
               setType(
@@ -43,7 +70,7 @@ export default function DetailsScreen() {
               );
             }}
           >
-            <Text style={{ fontSize: 18, marginBottom: 10, color: "white" }}>
+            <Text style={{ fontSize: 18, marginBottom: 10, color: "black" }}>
               {" "}
               Flip{" "}
             </Text>
